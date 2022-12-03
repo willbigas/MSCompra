@@ -14,6 +14,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -22,9 +23,10 @@ import java.util.Date;
 @Getter
 @Setter
 @Builder
+@ToString
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 @Entity(name = "tb_pedido")
-public class Pedido {
+public class Pedido implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
