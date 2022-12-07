@@ -5,6 +5,7 @@ import br.com.willbigas.compra.DadosMock;
 import br.com.willbigas.compra.model.Pedido;
 import br.com.willbigas.compra.service.PedidoService;
 import br.com.willbigas.compra.service.exception.EntidadeNaoEncontradaException;
+import br.com.willbigas.compra.service.producer.ProducerCompraEfetuada;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.*;
@@ -12,12 +13,15 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -35,6 +39,9 @@ public class PedidoControllerTest {
 	private final PedidoService pedidoService;
 	private final ObjectMapper objectMapper;
 
+	@MockBean
+	private ProducerCompraEfetuada producer;
+
 	private static final String ROTA_PEDIDO = "/pedido";
 
 	private DadosMock dadosMock = new DadosMock();
@@ -46,6 +53,8 @@ public class PedidoControllerTest {
 	@Order(1)
 	void deveCadastrarPedidoComSucesso() throws Exception {
 		Pedido pedido = dadosMock.getPedido();
+
+		doNothing().when(producer).enviarPedido(any());
 
 		mockMvc.perform(post(ROTA_PEDIDO)
 						.content(objectMapper.writeValueAsString(pedido))
