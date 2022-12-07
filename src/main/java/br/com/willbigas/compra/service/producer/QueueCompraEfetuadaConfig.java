@@ -1,4 +1,4 @@
-package br.com.willbigas.compra.service.rabbitmq;
+package br.com.willbigas.compra.service.producer;
 
 import org.springframework.amqp.core.Queue;
 import org.springframework.beans.factory.annotation.Value;
@@ -6,9 +6,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class RabbitMQConfig {
+public class QueueCompraEfetuadaConfig {
 
-	@Value("${queue_name}")
+	@Value("${queue_name_producer}")
 	private String queueName;
 
 	@Bean
