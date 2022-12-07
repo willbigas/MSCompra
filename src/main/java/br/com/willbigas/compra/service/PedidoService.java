@@ -1,6 +1,8 @@
 package br.com.willbigas.compra.service;
 
+import br.com.willbigas.compra.model.Cartao;
 import br.com.willbigas.compra.model.Pedido;
+import br.com.willbigas.compra.repository.CartaoRepository;
 import br.com.willbigas.compra.repository.PedidoRepository;
 import br.com.willbigas.compra.service.rabbitmq.Producer;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Service;
 public class PedidoService {
 
 	private final PedidoRepository pedidoRepository;
+	private final CartaoRepository cartaoRepository;
 	private final Producer producer;
 
 	public Pedido salvar(Pedido pedido) throws JsonProcessingException {

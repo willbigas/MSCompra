@@ -4,12 +4,10 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.*;
+import org.hibernate.annotations.Cascade;
 import org.hibernate.validator.constraints.br.CPF;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -54,4 +52,8 @@ public class Pedido implements Serializable {
 	@NotBlank
 	@Email
 	private String email;
+
+	@OneToOne(cascade = CascadeType.PERSIST)
+	@JoinColumn(name = "cartao_id")
+	private Cartao cartao;
 }
