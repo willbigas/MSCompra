@@ -80,6 +80,6 @@ jobs:
           use_existing_version_if_available: true
           application_name: app-spring-boot
           environment_name: Appspringboot-env
-          version_label: ${{ github.SHA }}
+          version_label: 1
           region: us-east-1
           deployment_package: app.war
