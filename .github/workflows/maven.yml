@@ -57,7 +57,7 @@ jobs:
       - name: Build package war
         run: mvn -B package -DskipTests --file pom.xml
       - name: Upload .war
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v2
         with:
           name: artifact
           path: target/app.war # or path/to/artifact
@@ -68,11 +68,11 @@ jobs:
 
     steps:
       - name: Download war
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v2
         with:
           name: artifact
       - name: Deploy to Elastic Bean Stalk
-        uses: einaregilsson/beanstalk-deploy@v21
+        uses: einaregilsson/beanstalk-deploy@v20
         with:
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
@@ -80,6 +80,6 @@ jobs:
           use_existing_version_if_available: true
           application_name: app-spring-boot
           environment_name: Appspringboot-env
-          version_label: 1
+          version_label: latest-${{github.sha}}
           region: us-east-1
           deployment_package: app.war
