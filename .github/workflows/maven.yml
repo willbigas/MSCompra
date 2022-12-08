@@ -61,3 +61,25 @@ jobs:
         with:
           name: artifact
           path: target/app.war # or path/to/artifact
+  deploy:
+    needs: build
+    name: Deploy on AWS Elastic Bean Stalk
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download war
+        uses: actions/download-artifact@v3
+        with:
+          name: artifact
+      - name: Deploy to Elastic Bean Stalk
+        uses: einaregilsson/beanstalk-deploy@v21
+        with:
+          aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          wait_for_environment_recovery: 120
+          use_existing_version_if_available: true
+          application_name: app-spring-boot
+          environment_name: Appspringboot-env
+          version_label: ${{ github.SHA }}
+          region: us-east-1
+          deployment_package: app.war
